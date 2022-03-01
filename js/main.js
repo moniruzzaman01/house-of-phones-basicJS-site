@@ -4,7 +4,6 @@ const callApi = () => {
     // get input value and stored in a variable
     const searchTextField = document.getElementById('search-text')
     let searchText = searchTextField.value.toLowerCase();
-    console.log(searchText)
     if (searchText == '') {
         searchText = null;
     }
