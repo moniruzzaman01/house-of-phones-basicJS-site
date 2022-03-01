@@ -1,8 +1,16 @@
 const callApi = () => {
     // get input value and stored in a variable
     const searchTextField = document.getElementById('search-text')
-    // const searchText = searchTextField.value;
-    searchText = 'iphone';
+    let searchText = searchTextField.value;
+    if (searchText == '') {
+        searchText = null;
+    }
+    // console.log('hello', searchText)
+    // searchText = 'samsung';
+    // spinner
+    const spinner = document.getElementById('spinner')
+    spinner.classList.remove('opacity-0')
+    spinner.classList.add('opacity-100')
     // api call
     const url = `https://openapi.programming-hero.com/api/phones?search=${searchText}`;
     fetch(url)
@@ -11,6 +19,7 @@ const callApi = () => {
     // clean the search box
     searchTextField.value = '';
 }
+// callApi()
 // get data from api
 const getPhones = (data) => {
     const resultDiv = document.getElementById('results')
@@ -19,7 +28,10 @@ const getPhones = (data) => {
         const h1 = document.createElement('h1')
         h1.innerText = 'No Data Found!!!';
         resultDiv.appendChild(h1);
-        console.log('no data found!');
+        // console.log('no data found!');
+        // spinner hide
+        spinner.classList.remove('opacity-100')
+        spinner.classList.add('opacity-0')
     } else {
         const phones = data.data;
         phones.forEach(phone => {
@@ -44,19 +56,17 @@ const getPhones = (data) => {
             `;
             div.innerHTML = template;
             resultDiv.appendChild(div);
-            console.log(phone);
+            // spinner hide
+            spinner.classList.remove('opacity-100')
+            spinner.classList.add('opacity-0')
+            // console.log(phone);
         });
     }
 }
 const showDetails = (id) => {
-    console.log(id);
+    // console.log(id);
     const url = `https://openapi.programming-hero.com/api/phone/${id}`
     fetch(url)
         .then(res => res.json())
-        .then(data => console.log(data.data))
+        .then(data => console.log(data.data.slug))
 }
-
-
-
-
-callApi()
