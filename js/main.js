@@ -5,9 +5,7 @@ const callApi = () => {
     if (searchText == '') {
         searchText = null;
     }
-    // searchText = 'samsung';
-    const detailsDiv = document.getElementById('details')
-    detailsDiv.innerHTML = '';
+    searchText = 'iphone';
     // spinner
     const spinner = document.getElementById('spinner')
     spinner.classList.remove('opacity-0')
@@ -20,21 +18,20 @@ const callApi = () => {
     // clean the search box
     searchTextField.value = '';
 }
-
-// callApi()
+callApi();
 
 // get data from api
 const getPhones = (data) => {
+    // get result div and clean previous result
     const resultDiv = document.getElementById('results')
     resultDiv.textContent = '';
+    // get details div and remove previous details
+    const detailsDiv = document.getElementById('details')
+    detailsDiv.innerHTML = '';
     if (data.status == false) {
         const h1 = document.createElement('h1')
         h1.innerText = 'No Data Found!!!';
         resultDiv.appendChild(h1);
-        // console.log('no data found!');
-        // spinner hide
-        spinner.classList.remove('opacity-100')
-        spinner.classList.add('opacity-0')
     } else {
         const phones = data.data;
         let counter = 0;
@@ -63,12 +60,11 @@ const getPhones = (data) => {
                 div.innerHTML = template;
                 resultDiv.appendChild(div);
             }
-            // spinner hide
-            spinner.classList.remove('opacity-100')
-            spinner.classList.add('opacity-0')
-            // console.log(phone);
         });
     }
+    // spinner hide
+    spinner.classList.remove('opacity-100')
+    spinner.classList.add('opacity-0')
 }
 const getDetails = (id) => {
     // console.log(id);
@@ -82,8 +78,31 @@ const showDetails = (data) => {
         name,
         releaseDate,
         image,
-        mainFeatures
+        mainFeatures,
+        others
     } = data;
+    console.log(data)
+    console.log(data.others ? data.others.Radio : '')
+    // if (data.others) {
+    //     const {
+    //         WLAN,
+    //         Bluetooth,
+    //         GPS,
+    //         NFC,
+    //         Radio,
+    //         USB,
+    //     } = others;
+    // } else {
+    //     data.others = '';
+    // }
+    // const {
+    //     WLAN,
+    //     Bluetooth,
+    //     GPS,
+    //     NFC,
+    //     Radio,
+    //     USB,
+    // } = others;
     const {
         chipSet,
         displaySize,
@@ -91,14 +110,13 @@ const showDetails = (data) => {
         sensors,
         storage
     } = mainFeatures;
-    console.log(sensors)
     if (releaseDate == '') {
         releaseDate = 'date not found!'
     }
     const detailsDiv = document.getElementById('details')
     const template = `
         <div style="max-height: 100vh; width: 60%;" class="card mb-3 h-100 mx-auto">
-            <img src="${image}" style="width: 60%; overflow: hidden;" class="card-img-top mx-auto"
+            <img src="${image}" style="width: 60%; overflow: scroll;" class="card-img-top mx-auto"
                 alt="images/img.jpg">
             <div class="card-body">
                 <h2 class="card-title">${name}</h2>
@@ -110,6 +128,23 @@ const showDetails = (data) => {
                 <p>
                     Sensors:
                     ${sensors.join(', ')}                        
+                </p>
+                <p>
+                    Ohters:
+                    <div class="row row-cols-2">
+                        <div class="col">
+                        <span>Wlan: ${data.others ? data.others.WLAN : 'no data found'}</span><br>
+                        <span>Blutooth: ${data.others ? data.others.Bluetooth : 'no data found'}</span><br>
+                        <span>Radio: ${data.others ? data.others.Radio : 'no data found'}</span><br>
+                        </div>
+                        <div class="col">
+                        <span>NFC: ${data.others ? data.others.NFC : 'no data found'}</span><br>
+                        <span>USB: ${data.others ? data.others.USB : 'no data found'}</span><br>
+                        <span>GPS: ${data.others ? data.others.GPS : 'no data found'}</span><br>
+                        </div>
+                    </div>
+                        
+                        
                 </p>
             </div>
         </div>
