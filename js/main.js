@@ -3,7 +3,8 @@ const spinner = document.getElementById('spinner')
 const callApi = () => {
     // get input value and stored in a variable
     const searchTextField = document.getElementById('search-text')
-    let searchText = searchTextField.value;
+    let searchText = searchTextField.value.toLowerCase();
+    console.log(searchText)
     if (searchText == '') {
         searchText = null;
     }
@@ -111,8 +112,8 @@ const showDetails = (data) => {
                     ${sensors.join(', ')}                        
                 </p>
                 <p>
-                    Ohters:
-                    <div div class = "row row-cols-2" >
+                    <div div div class = "row row-cols-3" >
+                        <div class="col">Ohters:</div>
                         <div class="col">
                         <span>Wlan: ${data.others ? data.others.WLAN : 'no data found'}</span><br>
                         <span>Blutooth: ${data.others ? data.others.Bluetooth : 'no data found'}</span><br>
