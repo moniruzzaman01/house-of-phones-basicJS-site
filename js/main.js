@@ -5,7 +5,9 @@ const callApi = () => {
     if (searchText == '') {
         searchText = null;
     }
-    searchText = 'iphone';
+    // searchText = 'samsung';
+    const detailsDiv = document.getElementById('details')
+    detailsDiv.innerHTML = '';
     // spinner
     const spinner = document.getElementById('spinner')
     spinner.classList.remove('opacity-0')
@@ -18,7 +20,8 @@ const callApi = () => {
     // clean the search box
     searchTextField.value = '';
 }
-callApi()
+
+// callApi()
 
 // get data from api
 const getPhones = (data) => {
@@ -55,12 +58,10 @@ const getPhones = (data) => {
                     <button onclick="getDetails('${slug}')" class="btn btn-sm btn-warning w-50 m-2">More...</button>
                 </div>
             `;
-            console.log(counter)
             counter++;
             if (counter <= 20) {
                 div.innerHTML = template;
                 resultDiv.appendChild(div);
-                console.log('hello')
             }
             // spinner hide
             spinner.classList.remove('opacity-100')
@@ -83,7 +84,6 @@ const showDetails = (data) => {
         image,
         mainFeatures
     } = data;
-    console.log(mainFeatures)
     const {
         chipSet,
         displaySize,
@@ -91,39 +91,26 @@ const showDetails = (data) => {
         sensors,
         storage
     } = mainFeatures;
+    console.log(sensors)
     if (releaseDate == '') {
         releaseDate = 'date not found!'
     }
     const detailsDiv = document.getElementById('details')
-
     const template = `
-    <div style="max-height: 100vh; width: 60%;" class="card mb-3 h-100 mx-auto">
+        <div style="max-height: 100vh; width: 60%;" class="card mb-3 h-100 mx-auto">
             <img src="${image}" style="width: 60%; overflow: hidden;" class="card-img-top mx-auto"
                 alt="images/img.jpg">
             <div class="card-body">
                 <h2 class="card-title">${name}</h2>
                 <p class="card-text"><small>${releaseDate}</small></p>
-            </div>
-            <div class="container row row-cols-md-2">
-                <div class="col">
-                    <p>Chipset: ${chipSet}</p>
-                    <p>DisplaySize: ${displaySize}</p>
-                    <p>Memory: ${memory}</p>
-                    <p>Storage: ${storage}</p>
-                </div>
-                <div class="col">
-                        <p>
-                            Sensors:
-                            <ul>
-                                <li>1</li>
-                                <li>1</li>
-                                <li>1</li>
-                                <li>1</li>
-                                <li>1</li>
-                                <li>1</li>
-                            </ul>
-                        </p>
-                    </div>
+                <p>Chipset: ${chipSet}</p>
+                <p>DisplaySize: ${displaySize}</p>
+                <p>Memory: ${memory}</p>
+                <p>Storage: ${storage}</p>
+                <p>
+                    Sensors:
+                    ${sensors.join(', ')}                        
+                </p>
             </div>
         </div>
     `;
