@@ -1,3 +1,5 @@
+// spinner
+const spinner = document.getElementById('spinner')
 const callApi = () => {
     // get input value and stored in a variable
     const searchTextField = document.getElementById('search-text')
@@ -5,9 +7,8 @@ const callApi = () => {
     if (searchText == '') {
         searchText = null;
     }
-    searchText = 'iphone';
-    // spinner
-    const spinner = document.getElementById('spinner')
+    // searchText = 'iphone';
+    // spinner show
     spinner.classList.remove('opacity-0')
     spinner.classList.add('opacity-100')
     // api call
@@ -18,7 +19,7 @@ const callApi = () => {
     // clean the search box
     searchTextField.value = '';
 }
-callApi();
+// callApi();
 
 // get data from api
 const getPhones = (data) => {
@@ -67,7 +68,9 @@ const getPhones = (data) => {
     spinner.classList.add('opacity-0')
 }
 const getDetails = (id) => {
-    // console.log(id);
+    // spinner show
+    spinner.classList.remove('opacity-0')
+    spinner.classList.add('opacity-100')
     const url = `https://openapi.programming-hero.com/api/phone/${id}`
     fetch(url)
         .then(res => res.json())
@@ -81,28 +84,6 @@ const showDetails = (data) => {
         mainFeatures,
         others
     } = data;
-    console.log(data)
-    console.log(data.others ? data.others.Radio : '')
-    // if (data.others) {
-    //     const {
-    //         WLAN,
-    //         Bluetooth,
-    //         GPS,
-    //         NFC,
-    //         Radio,
-    //         USB,
-    //     } = others;
-    // } else {
-    //     data.others = '';
-    // }
-    // const {
-    //     WLAN,
-    //     Bluetooth,
-    //     GPS,
-    //     NFC,
-    //     Radio,
-    //     USB,
-    // } = others;
     const {
         chipSet,
         displaySize,
@@ -131,7 +112,7 @@ const showDetails = (data) => {
                 </p>
                 <p>
                     Ohters:
-                    <div class="row row-cols-2">
+                    <div div class = "row row-cols-2" >
                         <div class="col">
                         <span>Wlan: ${data.others ? data.others.WLAN : 'no data found'}</span><br>
                         <span>Blutooth: ${data.others ? data.others.Bluetooth : 'no data found'}</span><br>
@@ -143,11 +124,12 @@ const showDetails = (data) => {
                         <span>GPS: ${data.others ? data.others.GPS : 'no data found'}</span><br>
                         </div>
                     </div>
-                        
-                        
                 </p>
             </div>
         </div>
     `;
     detailsDiv.innerHTML = template;
+    // spinner hide
+    spinner.classList.remove('opacity-100')
+    spinner.classList.add('opacity-0')
 }
